@@ -1,2 +1,2 @@
 # babel-plugin-static-modify-jsx
-init
+a babel plugin to modify jsx before transform
