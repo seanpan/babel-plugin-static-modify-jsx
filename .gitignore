@@ -5,4 +5,3 @@ Thumbs.db
 **/.*
 !.editorconfig
 !.gitignore
-!.npmignore
