@@ -10,7 +10,7 @@ export default function () {
         visitor: {
             ClassDeclaration(path, state) {
                 const {config} = state.opts;
-                const cus = require(p.resolve(__dirname, config))[state.file.opts.filename];
+                const cus = require(config)[state.file.opts.filename];
                 if (cus) {
                     cus(new Cast(this.ast));
                 }
