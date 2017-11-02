@@ -1,6 +1,7 @@
 import util from "../util/index";
 
-export default function (ast, path, name) {
-    util.removeAttribute(path, name);
-    return ast;
+export default function (paths, name) {
+    paths.forEach(path => {
+        util.removeAttribute(path, name);
+    })
 };

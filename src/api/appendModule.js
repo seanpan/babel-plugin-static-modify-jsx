@@ -1,33 +1,32 @@
 import * as t from "babel-types";
-import * as babylon from "babylon";
 import util from "../util/index";
 
 
 /**
  * todo props
  * @param ast
- * @param path
+ * @param paths
  * @param code
  * @param props
  */
-export default function (ast, path, code, propsString) {
+export default function (ast, paths, code, props) {
     const srcAst = util.build(code);
-    util.combine(ast, srcAst);
-    util.selfOpen(path);
     const classNames = util.getClassNames(srcAst);
-    let attributes = [];
-    if (propsString) {
-        const propsAst = babylon.parseExpression(propsString, {
-            sourceType: "module",
-            plugins: ['jsx']
+    util.combine(ast, srcAst);
+    paths.forEach((path) => {
+        util.selfOpen(path);
+        let attributes = [];
+        if (props && props.length) {
+            attributes = props.map(prop => {
+                const {key, value, asExpression} = prop;
+                const expression = util.buildExpression(value, asExpression);
+                return t.jSXAttribute(t.jSXIdentifier(key), expression);
+            })
+        }
+        const arr = classNames.map((className) => {
+            return t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier(className), attributes, true), null, [], true);
         });
-        attributes = propsAst.properties.map((prop) => {
-            return t.jSXAttribute(t.jSXIdentifier(prop.key.name), t.jSXExpressionContainer(prop.value))
-        });
-    }
-    const arr = classNames.map((className) => {
-        return t.jSXElement(t.jSXOpeningElement(t.jSXIdentifier(className), attributes, true), null, [], true);
-    });
-    const node = path.node;
-    node.children = node.children.concat(arr);
+        const node = path.node;
+        node.children = node.children.concat(arr);
+    })
 };

@@ -10,58 +10,21 @@ import util from "./util/index";
 import fs from "fs";
 import path from "path";
 
-function convertToText(obj) {
-    //create an array that will later be joined into a string.
-    let string = [];
-
-    //is object
-    //    Both arrays and objects seem to return "object"
-    //    when typeof(obj) is applied to them. So instead
-    //    I am checking to see if they have the property
-    //    join, which normal objects don't have but
-    //    arrays do.
-    if (typeof(obj) == "object" && (obj.join == undefined)) {
-        string.push("{");
-        for (let prop in obj) {
-            string.push(prop, ": ", convertToText(obj[prop]), ",");
-        }
-        string.push("}");
-
-        //is array
-    } else if (typeof(obj) == "object" && !(obj.join == undefined)) {
-        string.push("[");
-        for (let prop in obj) {
-            string.push(convertToText(obj[prop]), ",");
-        }
-        string.push("]")
-
-        //is function
-    } else if (typeof(obj) == "function") {
-        string.push(obj.toString())
-
-        //all other values can be done with JSON.stringify
-    } else {
-        string.push(JSON.stringify(obj))
-    }
-
-    return string.join("")
-}
-
 export default class Cast {
     constructor(ast) {
         this.ast = ast;
     }
 
-    set (path) {
-        this.path = path;
+    set(paths) {
+        this.paths = paths;
     }
 
-    get () {
-        return this.path;
+    get() {
+        return this.paths;
     }
 
     reset() {
-        this.path = null;
+        this.paths = null;
     }
 
     generate() {
@@ -74,36 +37,44 @@ export default class Cast {
         return cast;
     }
 
-    attr(name, value) {
-        _attr(this.ast, this.path, name, value);
-        return this.ast;
+    attr(name, value, asExpression) {
+        _attr(this.paths, name, value, asExpression);
+        return this;
     }
 
     removeAttr(name) {
-        _removeAttr(this.ast, this.path, name);
-        return this.ast;
+        _removeAttr(this.paths, name);
+        return this;
     }
 
-    append(code) {
-        _append(this.ast, this.path, code);
-        return this.ast;
+    append(child) {
+        _append(this.paths, child, Cast);
+        // return new Cast(this.ast);
+        return this;
     }
 
-    prepend(code) {
-        _prepend(this.ast, this.path, code);
-        return this.ast;
+    prepend(child) {
+        _prepend(this.paths, child, Cast);
+        // return new Cast(this.ast);
+        return this;
     }
 
     appendModule(file, props) {
-        _appendModule(this.ast, this.path, fs.readFileSync(path.resolve(file), {
-                encoding: 'utf8'
-            }), convertToText(props)
-        );
-        return this.ast;
+        _appendModule(this.ast, this.paths, fs.readFileSync(path.resolve(file), {
+            encoding: 'utf8'
+        }), props);
+        // return new Cast(this.ast);
+        return this;
     }
 
-    remove() {
-        _remove(this.ast, this.path);
-        return this.ast;
+    remove(targetCast) {
+        if (targetCast) {
+            _remove(targetCast.get());
+        }
+        else {
+            _remove(this.paths);
+        }
+        // return new Cast(this.ast);
+        return this;
     }
 };

@@ -1,22 +1,29 @@
 {
   "name": "babel-plugin-static-modify-jsx",
-  "version": "0.0.3",
-  "description": "",
-  "main": "lib",
-  "dependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:seanpan/babel-plugin-static-modify-jsx.git"
+  "version": "1.0.1",
+  "description": "Static JSX modifier",
+  "main": "lib/index.js",
+  "keywords": [
+    "babel-plugin"
+  ],
+  "dependencies": {
+    "babel-literal-to-ast": "^1.0.0",
+    "function.prototype.name": "^1.0.3",
+    "is-subset": "^0.1.1",
+    "lodash": "^4.17.4",
+    "object-is": "^1.0.1",
+    "object.entries": "^1.0.4",
+    "object.values": "^1.0.4",
+    "rst-selector-parser": "^2.2.3"
   },
   "scripts": {
     "test": "mocha",
     "build": "babel src -d lib",
     "watch": "babel src -d lib -w",
-    "prepublish": "npm run build",
-    "try": "babel case.jsx"
+    "prepublish": "npm run build"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "sean pan",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
@@ -28,10 +35,12 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "babel-traverse": "^6.25.0",
     "babel-types": "^6.25.0",
     "babylon": "^6.17.4",
     "chai": "^4.1.1",
+    "jest": "^20.0.4",
     "mocha": "^3.5.0",
     "snap-shot": "^2.17.0"
   }

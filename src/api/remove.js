@@ -1,8 +1,9 @@
 import util from "../util/index";
 
-export default function (ast, path) {
+export default function (paths) {
     // console.log(JSON.stringify(path.parentPath.node))
     // return
-    util.removeChild(path);
-    return ast;
+    paths.forEach((path) => {
+        util.removeChild(path);
+    })
 };
