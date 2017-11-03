@@ -1,5 +1,6 @@
 # babel-plugin-static-modify-jsx
-A babel plugin to modify JSX while transforming. Very useful when you have a **core view layer** with common and stable functionalities, some separated/specified/customized requirements need to be implemented or add to your application though.It is a very common senario when your application is a platform-like project which need to support several different customers.
+A babel plugin to modify JSX while transforming. Very useful when you have a **core view layer** with common and stable functionality, some specified/customized requirements need to be implemented or added to your application though. It is a very common scenario when a platform-like project need to support several different customers.
+To keep the core view layer pure, separated config as decorative DSL is quite necessary.
 
 ### Usage
 
