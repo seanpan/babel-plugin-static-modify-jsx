@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-static-modify-jsx",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Static JSX modifier",
   "main": "lib/index.js",
   "keywords": [
