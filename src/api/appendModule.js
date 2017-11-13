@@ -4,15 +4,15 @@ import util from "../util/index";
 
 /**
  * todo props
- * @param ast
+ * @param root
  * @param paths
  * @param code
  * @param props
  */
-export default function (ast, paths, code, props) {
+export default function (paths, root, code, props) {
     const srcAst = util.build(code);
     const classNames = util.getClassNames(srcAst);
-    util.combine(ast, srcAst);
+    util.combine(root, srcAst);
     paths.forEach((path) => {
         util.selfOpen(path);
         let attributes = [];

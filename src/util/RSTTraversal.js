@@ -13,6 +13,11 @@ export function childrenOfNode(node) {
     return Array.isArray(node.rendered) ? flatten(node.rendered, true) : [node.rendered];
 }
 
+export function hasAttribute(path, name, value) {
+    const node = path.node;
+    return node.name.name === name && node.value.value === value;
+}
+
 // export function hasClassName(node, className) {
 //   let classes = propsOfNode(node).className || '';
 //   classes = String(classes).replace(/\s/g, ' ');
@@ -20,8 +25,9 @@ export function childrenOfNode(node) {
 // }
 
 export function hasClassName(path, className) {
-    const node = path.node;
-    return node.name.name === 'className' && node.value.value === className;
+    // const node = path.node;
+    // return node.name.name === 'className' && node.value.value === className;
+    return hasAttribute(path, 'className', className)
 }
 
 export function treeForEach(tree, fn) {
@@ -97,10 +103,13 @@ export function parentsOfNode(node, root) {
     return pathToNode(node, root).reverse();
 }
 
-export function nodeHasId(node, id) {
-    return propsOfNode(node).id === id;
+export function nodeHasId(path, id) {
+    return hasAttribute(path, 'id', id)
 }
 
+export function nodeHasRef(path, ref) {
+    return hasAttribute(path, 'ref', ref)
+}
 
 export {nodeHasProperty};
 

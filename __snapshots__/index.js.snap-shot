@@ -28,3 +28,17 @@ exports['remove simple child by call remove on parent 1'] = "import React, { Com
 
 exports['change attr value 1'] = "import React, { Component } from \"react\";\n\nexport default class extends Component {\n    constructor(props) {\n        super(props);\n        console.log('init');\n    }\n\n    componentDidMount() {\n        console.log('did mount');\n    }\n\n    handleClick() {\n        console.log('clicked');\n    }\n\n    render() {\n        return <div className=\"wrapper\">\n                <div className=\"parent-main\" onClick={this.handleClick}>\n                    <span className=\"child\">child</span>\n                    <input className=\"input\" name=\"input-name-modified\" value={null} onBlur={this.handleClick.bind(this)} onChange={function onChange() {\n                    console.log('onChange');\n                }} onClick={this.handleClick.bind(this)} obj={{\n                    'a': 1,\n                    'b': {\n                        'c': 2\n                    }\n                }} />\n                </div>\n                <div className=\"parent-sub\" />\n            </div>;\n    }\n}"
 
+exports['find by html class 1'] = "import React, { Component } from \"react\";\n\nexport default class extends Component {\n    render() {\n        return <div className=\"parent\">\n                <span>I'm parent</span>\n            <div>child</div></div>;\n    }\n}"
+
+exports['find by id 1'] = "import React, { Component } from \"react\";\n\nexport default class extends Component {\n    render() {\n        return <div id=\"parent\">\n                <span>I'm parent</span>\n            <div>child</div></div>;\n    }\n}"
+
+exports['find by attr 1'] = "import React, { Component } from \"react\";\n\nexport default class extends Component {\n    render() {\n        return <div attr=\"parent\">\n                <span>I'm parent</span>\n            <div>child</div></div>;\n    }\n}"
+
+exports['find by type 1'] = "import React, { Component } from \"react\";\n\nexport default class extends Component {\n    render() {\n        return <div id=\"parent\">\n                <span>I'm parent</span>\n            <div>child</div></div>;\n    }\n}"
+
+exports['find by class 1'] = "import React, { Component } from \"react\";\n\nexport default class extends Component {\n    render() {\n        return <Parent id=\"parent\">\n                <span>I'm parent</span>\n            <div>child</div></Parent>;\n    }\n}"
+
+exports['find by ref 1'] = "import React, { Component } from \"react\";\n\nexport default class extends Component {\n    render() {\n        return <div ref=\"parent\">\n                <span>I'm parent</span>\n            <div>child</div></div>;\n    }\n}"
+
+exports['nested find 1'] = "import React, { Component } from \"react\";\n\nexport default class extends Component {\n    render() {\n        return <div className=\"parent\">\n                <span className=\"child\">I'm parent<div>sub-child</div></span>\n            </div>;\n    }\n}"
+

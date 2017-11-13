@@ -1,4 +1,33 @@
 module.exports = {
+    './test/find/SimpleParentWithHTMLClass.jsx': function (cast) {
+        const nodeCast = cast.find('.parent');
+        nodeCast.append('<div>child</div>');
+    },
+    './test/find/SimpleParentWithId.jsx': function (cast) {
+        const nodeCast = cast.find('#parent');
+        nodeCast.append('<div>child</div>');
+    },
+    './test/find/SimpleParentWithAttr.jsx': function (cast) {
+        const nodeCast = cast.find('[attr="parent"]');
+        nodeCast.append('<div>child</div>');
+    },
+    './test/find/SimpleParentWithType.jsx': function (cast) {
+        const nodeCast = cast.find('div');
+        nodeCast.append('<div>child</div>');
+    },
+    './test/find/SimpleParentWithClass.jsx': function (cast) {
+        const nodeCast = cast.find('Parent');
+        nodeCast.append('<div>child</div>');
+    },
+    './test/find/SimpleParentWithRef.jsx': function (cast) {
+        const nodeCast = cast.find('@parent');
+        nodeCast.append('<div>child</div>');
+    },
+    './test/find/Nested.jsx': function (cast) {
+        const parent = cast.find('.parent');
+        const child = parent.find('.child');
+        child.append('<div>sub-child</div>');
+    },
     './test/append/SimpleParent.jsx': function (cast) {
         const nodeCast = cast.find('.parent');
         nodeCast.append('<div>child</div>');

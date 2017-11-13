@@ -3,6 +3,7 @@ import isEqual from 'lodash/isEqual';
 import is from 'object-is';
 import entries from 'object.entries';
 import functionName from 'function.prototype.name';
+import {hasAttribute} from "./RSTTraversal";
 
 function propsOfNode(node) {
   return entries((node && node.props) || {})
@@ -10,12 +11,17 @@ function propsOfNode(node) {
     .reduce((acc, [key, value]) => Object.assign(acc, { [key]: value }), {});
 }
 
-export function nodeHasType(node, type) {
-  if (!type || !node) return false;
-  if (!node.type) return false;
-  if (typeof node.type === 'string') return node.type === type;
-  return (typeof node.type === 'function' ?
-    functionName(node.type) === type : node.type.name === type) || node.type.displayName === type;
+// export function nodeHasType(node, type) {
+//   if (!type || !node) return false;
+//   if (!node.type) return false;
+//   if (typeof node.type === 'string') return node.type === type;
+//   return (typeof node.type === 'function' ?
+//     functionName(node.type) === type : node.type.name === type) || node.type.displayName === type;
+// }
+
+export function nodeHasType(path, type) {
+  if (!type || !path) return false;
+  return path.parentPath.node.name.name===type
 }
 
 function internalChildrenCompare(a, b, lenComp, isLoose) {
@@ -146,21 +152,25 @@ function isTextualNode(node) {
   return typeof node === 'string' || typeof node === 'number';
 }
 
-export function nodeHasProperty(node, propKey, propValue) {
-  const nodeProps = propsOfNode(node);
-  const descriptor = Object.getOwnPropertyDescriptor(nodeProps, propKey);
-  if (descriptor && descriptor.get) {
-    return false;
-  }
-  const nodePropValue = nodeProps[propKey];
+// export function nodeHasProperty(node, propKey, propValue) {
+//   const nodeProps = propsOfNode(node);
+//   const descriptor = Object.getOwnPropertyDescriptor(nodeProps, propKey);
+//   if (descriptor && descriptor.get) {
+//     return false;
+//   }
+//   const nodePropValue = nodeProps[propKey];
+//
+//   if (typeof nodePropValue === 'undefined') {
+//     return false;
+//   }
+//
+//   if (typeof propValue !== 'undefined') {
+//     return is(nodePropValue, propValue);
+//   }
+//
+//   return Object.prototype.hasOwnProperty.call(nodeProps, propKey);
+// }
 
-  if (typeof nodePropValue === 'undefined') {
-    return false;
-  }
-
-  if (typeof propValue !== 'undefined') {
-    return is(nodePropValue, propValue);
-  }
-
-  return Object.prototype.hasOwnProperty.call(nodeProps, propKey);
+export function nodeHasProperty(path, propKey, propValue) {
+  return hasAttribute(path, propKey, propValue)
 }

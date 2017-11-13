@@ -5,14 +5,13 @@ import _append from "./api/append";
 import _prepend from "./api/prepend";
 import _appendModule from "./api/appendModule";
 import _remove from "./api/remove";
-
-import util from "./util/index";
 import fs from "fs";
 import path from "path";
 
 export default class Cast {
-    constructor(ast) {
-        this.ast = ast;
+    constructor(paths, root) {
+        this.paths = paths;
+        this.root = root;
     }
 
     set(paths) {
@@ -27,14 +26,12 @@ export default class Cast {
         this.paths = null;
     }
 
-    generate() {
-        return util.generate(this.ast, this.code);
-    }
+    // generate() {
+    //     return util.generate(this.ast, this.code);
+    // }
 
     find(selector) {
-        const cast = new Cast(this.ast);
-        cast.set(_find(this.ast, selector));
-        return cast;
+        return new Cast(_find(this.paths, selector), this.root);
     }
 
     attr(name, value, asExpression) {
@@ -60,7 +57,7 @@ export default class Cast {
     }
 
     appendModule(file, props) {
-        _appendModule(this.ast, this.paths, fs.readFileSync(path.resolve(file), {
+        _appendModule(this.paths, this.root, fs.readFileSync(path.resolve(file), {
             encoding: 'utf8'
         }), props);
         // return new Cast(this.ast);

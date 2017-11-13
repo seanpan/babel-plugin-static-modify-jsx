@@ -1,14 +1,16 @@
 import traverse from "babel-traverse";
 import {buildPredicate} from '../util/selectors';
 
-export default function (ast, selector) {
+export default function (paths, selector) {
     const matchPaths = [];
-    traverse(ast, {
-        JSXAttribute(path) {
-            if (buildPredicate(selector)(path)) {
-                matchPaths.push(path.find((path) => path.isJSXElement()));
+    paths.forEach(path => {
+        traverse(path.node, {
+            JSXAttribute(path) {
+                if (buildPredicate(selector)(path)) {
+                    matchPaths.push(path.find((path) => path.isJSXElement()));
+                }
             }
-        }
+        }, path.scope, undefined, path.parentPath);
     });
     return matchPaths;
 };

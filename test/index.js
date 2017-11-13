@@ -1,20 +1,37 @@
 const snapshot = require('snap-shot');
 const babel = require('babel-core');
+const config = require('../config.js');
 
 function transform(path) {
     return babel.transformFileSync(path, {
         babelrc: false,
-        plugins: [["../../lib/index.js", {
-            config: "../config.js"
-        }]]
+        plugins: [["../../lib/index.js", {config}]]
     }).code;
-};
+}
 
-// describe('test find functionality', () => {
-//     it('find existing node', () => {
-//         snapshot(transform("./test/append/SimpleParent.jsx"));
-//     });
-// });
+describe('test find functionality', () => {
+    it('find by html class', () => {
+        snapshot(transform("./test/find/SimpleParentWithHTMLClass.jsx"));
+    });
+    it('find by id', () => {
+        snapshot(transform("./test/find/SimpleParentWithId.jsx"));
+    });
+    it('find by attr', () => {
+        snapshot(transform("./test/find/SimpleParentWithAttr.jsx"));
+    });
+    it('find by type', () => {
+        snapshot(transform("./test/find/SimpleParentWithType.jsx"));
+    });
+    it('find by class', () => {
+        snapshot(transform("./test/find/SimpleParentWithClass.jsx"));
+    });
+    it('find by ref', () => {
+        snapshot(transform("./test/find/SimpleParentWithRef.jsx"));
+    });
+    it('nested find', () => {
+        snapshot(transform("./test/find/Nested.jsx"));
+    });
+});
 
 describe('test append functionality', () => {
     it('append code to simple parent', () => {

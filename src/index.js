@@ -1,13 +1,13 @@
 import Cast from "./cast";
 import p from "path";
-import generate from "babel-generator";
 
 
 export default function () {
     return {
         inherits: require("babel-plugin-syntax-jsx"),
         pre(state) {
-            this.ast = state.ast;
+            this.root = state.ast;
+            this.paths = [state.path];
         },
         visitor: {
             Program(path, pluginPass) {
@@ -21,7 +21,7 @@ export default function () {
                 }
                 const cus = configObj[pluginPass.file.opts.filename];
                 if (cus) {
-                    cus(new Cast(this.ast));
+                    cus(new Cast(this.paths, this.root));
                 }
             }
         }
